@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import csv
+from datetime import datetime
 
 # Menu data
 
@@ -138,10 +140,13 @@ feedback_entry.pack()
 def show_feedback():
     feedback = feedback_entry.get("1.0", "end").strip()
     if feedback:
+            with open('sales_data.csv', 'a', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([datetime.now().strftime("%Y-%m-%d %H:%M"), grand_var.get(), feedback])
+        
         messagebox.showinfo("Feedback Received", f"Thanks for your feedback:\n{feedback}")
     else:
         messagebox.showwarning("Empty", "Please write some feedback first.")
-
 tk.Button(bill_frame, text="Submit Feedback", command=show_feedback).pack(pady=10)
 
 root.mainloop()
